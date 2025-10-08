@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { CompanyRepository } from 'src/repositories/company/company.repository';
+import { CompanyRepository } from '@/repositories/company/company.repository';
 
 @Injectable()
 export class CompanyListUseCase {
@@ -15,7 +15,10 @@ export class CompanyListUseCase {
     const specialFilter = ['typeCompany'];
 
     Object.entries(filter).forEach(([key, value]) => {
-      if (specialFilter.includes(key) && key === 'typeCompany') {
+      const isSpecialFilter = specialFilter.includes(key);
+      const isNull = value === 'null';
+
+      if (isSpecialFilter && key === 'typeCompany') {
         /*
         const typeCompanyMulti = value.split(",")
         
@@ -35,8 +38,6 @@ export class CompanyListUseCase {
         */
       }
 
-      const isNull = value === 'null';
-
       if (isNull) {
         Object.assign(where, {
           [key]: {
@@ -45,7 +46,7 @@ export class CompanyListUseCase {
         });
       }
 
-      if (!isNull && !specialFilter) {
+      if (!isSpecialFilter && !isNull) {
         Object.assign(where, {
           [key]: {
             contains: value,

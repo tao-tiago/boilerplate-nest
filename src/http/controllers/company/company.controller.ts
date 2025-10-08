@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { CompanyCreateDTO } from 'src/cases/company/companyCreate/companyCreate.dto';
-import { CompanyCreateUseCase } from 'src/cases/company/companyCreate/companyCreate.useCase';
-import { CompanyListUseCase } from 'src/cases/company/companyList/companyList.useCase';
-import { filters } from 'src/core/shared/helpers/filters';
-import { QueryOptionsDTO } from 'src/core/shared/helpers/query-options.dto';
+import { CompanyCreateDTO } from '@/cases/company/companyCreate/companyCreate.dto';
+import { CompanyCreateUseCase } from '@/cases/company/companyCreate/companyCreate.useCase';
+import { CompanyListUseCase } from '@/cases/company/companyList/companyList.useCase';
+import { filters } from '@/core/shared/helpers/filters';
+import { QueryOptionsDTO } from '@/core/shared/helpers/query-options.dto';
 
 @Controller('api/v1/companies')
 export class CompanyController {
