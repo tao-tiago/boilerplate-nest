@@ -1,41 +1,30 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { CompanyRepository } from '@/repositories/company/company.repository';
+import { QueryOptionsResponse } from '@/core/shared/helpers/query-options.dto';
+import { CompanyListFilter } from './companyList.dto';
+import { entries } from '@/core/shared/utils/entries';
 
 @Injectable()
 export class CompanyListUseCase {
   constructor(private companyRepository: CompanyRepository) {}
 
-  async execute(payload: any) {
+  async execute(payload: QueryOptionsResponse<CompanyListFilter>) {
     const { orderBy, order, skip, take, filter } = payload;
 
     const where: Prisma.CompanyWhereInput = {};
+    const specialFilter: (keyof CompanyListFilter)[] = ['typeCompany'];
 
-    const specialFilter = ['typeCompany'];
-
-    Object.entries(filter).forEach(([key, value]) => {
+    entries(filter).forEach(([key, value]) => {
       const isSpecialFilter = specialFilter.includes(key);
       const isNull = value === 'null';
 
-      if (isSpecialFilter && key === 'typeCompany') {
-        /*
-        const typeCompanyMulti = value.split(",")
-        
-        const typeCompanyMultiCheck = typeCompanyMulti.map((typeCompany) => {
-          if (!Object.values(TypeCompany).includes(typeCompany as TypeCompany)) {
-            throw new Warning("Tipo de Empresa inválido", 400)
-          }
-
-          return typeCompany
-        })
-
+      if (isSpecialFilter) {
         Object.assign(where, {
-          typeCompany: {
-            in: typeCompanyMultiCheck
-          }
-        })
-        */
+          [key]: {
+            in: value.split(','),
+          },
+        });
       }
 
       if (isNull) {

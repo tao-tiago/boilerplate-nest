@@ -1,4 +1,4 @@
-import { Expose, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import { IsIn, IsOptional } from 'class-validator';
 
 export class QueryOptionsDTO {
@@ -16,7 +16,13 @@ export class QueryOptionsDTO {
   @IsOptional()
   @Transform(({ value }: { value: string }) => parseInt(value, 10))
   size = 10;
-
-  @Expose()
-  filters?: Record<string, any>;
 }
+
+export type QueryOptionsResponse<T> = Pick<
+  QueryOptionsDTO,
+  'orderBy' | 'order'
+> & {
+  skip: number;
+  take: number;
+  filter: Record<keyof T, string>;
+};
