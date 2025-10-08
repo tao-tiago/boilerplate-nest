@@ -1,11 +1,13 @@
 import { Prisma } from '@prisma/client';
 import { ICompany } from './company.types';
 import { PrismaService } from 'src/services/prisma/prisma.service';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CompanyRepository implements ICompany {
   constructor(private prisma: PrismaService) {}
 
-  companyList = async (payload: Prisma.CompanyFindManyArgs) => {
+  list = async (payload: Prisma.CompanyFindManyArgs) => {
     const [count, rows] = await this.prisma.$transaction([
       this.prisma.company.count({
         where: payload.where,

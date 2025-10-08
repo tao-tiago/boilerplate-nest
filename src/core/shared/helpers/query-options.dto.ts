@@ -1,9 +1,8 @@
-import { Transform } from 'class-transformer';
-import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
+import { Expose, Transform } from 'class-transformer';
+import { IsIn, IsOptional } from 'class-validator';
 
 export class QueryOptionsDTO {
   @IsOptional()
-  @IsString()
   orderBy: string = 'createdAt';
 
   @IsOptional()
@@ -11,12 +10,13 @@ export class QueryOptionsDTO {
   order: 'asc' | 'desc' = 'desc';
 
   @IsOptional()
-  @Transform(({ value }: { value: string }) => parseInt(value, 10) - 1)
-  @IsInt()
-  page = 0;
+  @Transform(({ value }: { value: string }) => parseInt(value, 10))
+  page = 1;
 
   @IsOptional()
   @Transform(({ value }: { value: string }) => parseInt(value, 10))
-  @IsInt()
   size = 10;
+
+  @Expose()
+  filters?: Record<string, any>;
 }
