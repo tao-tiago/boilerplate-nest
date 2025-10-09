@@ -1,7 +1,9 @@
-import { Prisma } from '@prisma/client';
-import { ICompany } from './company.types';
-import { PrismaService } from '@/services/prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common"
+import { Prisma } from "@prisma/client"
+
+import { PrismaService } from "@/services/prisma/prisma.service"
+
+import { ICompany } from "./company.types"
 
 @Injectable()
 export class CompanyRepository implements ICompany {
@@ -10,14 +12,14 @@ export class CompanyRepository implements ICompany {
   async list(payload: Prisma.CompanyFindManyArgs) {
     const [count, rows] = await this.prisma.$transaction([
       this.prisma.company.count({
-        where: payload.where,
+        where: payload.where
       }),
-      this.prisma.company.findMany(payload),
-    ]);
+      this.prisma.company.findMany(payload)
+    ])
 
     return {
       count,
-      rows,
-    };
+      rows
+    }
   }
 }

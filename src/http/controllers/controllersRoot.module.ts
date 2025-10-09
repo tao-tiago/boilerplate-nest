@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common"
+import { CompanyCaseModule } from "src/cases/company/companyCase.module"
 
-import { CompanyControllerModule } from './company/companyController.module';
+import { CompanyController } from "./company.controller"
 
 @Module({
-  imports: [CompanyControllerModule],
+  imports: [CompanyCaseModule],
+  controllers: [CompanyController]
 })
 export class ControllerRootModule {}

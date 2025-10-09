@@ -1,27 +1,27 @@
-import { QueryOptionsDTO, QueryOptionsResponse } from './query-options.dto';
+import { QueryOptionsDTO, QueryOptionsResponse } from "./query-options.dto"
 
 export function filters<T extends object>(
-  query: QueryOptionsDTO,
+  query: QueryOptionsDTO
 ): QueryOptionsResponse<T> {
-  const { orderBy, order, page, size, ...f } = query;
+  const { orderBy, order, page, size, ...f } = query
 
-  const skip = (page - 1) * size;
-  const take = size;
+  const skip = (page - 1) * size
+  const take = size
   const filter = Object.entries(f as Record<string, string | undefined>).reduce(
     (acc, [key, val]) => {
       if (val !== undefined) {
-        acc[key] = val;
+        acc[key] = val
       }
-      return acc;
+      return acc
     },
-    {} as Record<keyof T, string>,
-  );
+    {} as Record<keyof T, string>
+  )
 
   return {
     orderBy,
     order,
     skip,
     take,
-    filter,
-  };
+    filter
+  }
 }

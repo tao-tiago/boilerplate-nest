@@ -1,10 +1,10 @@
-import { Company } from '@prisma/client';
+import { Company, Prisma } from "@prisma/client"
 
 export type ICompany = {
-  list(data: any): Promise<{
-    count: number;
-    rows: Company[];
-  }>;
+  list(payload: Prisma.CompanyFindManyArgs): Promise<{
+    count: number
+    rows: Company[]
+  }>
   /*
   create (data: ICompanyDTO): Promise<string[]>
   get (id: string): Promise<ICompanyResponse>
@@ -12,4 +12,4 @@ export type ICompany = {
   delete (id: string): Promise<string[]>
   findById (id: string): Promise<ICompanyResponse | null>
   */
-};
+}
