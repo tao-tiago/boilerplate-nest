@@ -1,0 +1,32 @@
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id            String      @id @default(uuid())
+  corporateName String
+  typeCompany   TypeCompany
+  products      Product[]
+  createdAt     DateTime    @default(now())
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  name      String
+  companyId String
+  createdAt DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+enum TypeCompany {
+  MEI
+  LTDA
+}

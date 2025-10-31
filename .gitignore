@@ -1,0 +1,21 @@
+# Enviroment variables
+.env
+.env.local
+
+# Compiled output
+/dist
+/node_modules
+/build
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+
+# Temp directory
+.temp
+.tmp
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
