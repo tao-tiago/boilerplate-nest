@@ -14,7 +14,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
+    "test:coverage": "jest --coverage --maxWorkers=4 --coverageReporters=lcov",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
@@ -50,6 +50,7 @@
     "globals": "^16.0.0",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
     "lint-staged": "^16.2.3",
     "prettier": "^3.4.2",
     "prisma": "^6.17.0",
@@ -67,27 +68,5 @@
       "eslint --fix",
       "jest --no-cache --passWithNoTests"
     ]
-  },
-  "jestSonar": {
-    "reportPath": "coverage",
-    "reportFile": "reporter.xml",
-    "indent": 4
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

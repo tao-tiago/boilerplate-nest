@@ -1,8 +1,9 @@
 ## Technologies
 - [ ] Docker
 - [x] Nestjs TypeScript
-- [ ] Authenticated Routes
-- [x] Lint + Prettier
+- [x] Prisma ORM
+- [x] Redis (cache)
+- [x] Eslint + Prettier
 - [x] Automation with Husky + Lint Staged
 - [x] Unit testing with Jest
 - [x] Essencial Plugins VSCode + Launch Debug
