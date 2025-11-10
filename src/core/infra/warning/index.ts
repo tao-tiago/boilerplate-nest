@@ -5,9 +5,9 @@ export class Warning {
   public readonly status: number
   public readonly logger: Partial<Logger>
 
-  constructor(message: string | string[], status = 500, loggerError: Partial<Logger> = { ...this.logger }) {
+  constructor(message: string | string[], status = 500, loggerError?: Partial<Logger>) {
     this.status = status
-    this.logger = loggerError
+    this.logger = loggerError ?? { ...this.logger }
 
     if (typeof message === "string") {
       this.message = [message]
