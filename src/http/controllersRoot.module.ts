@@ -3,8 +3,8 @@ import { Module } from "@nestjs/common"
 import { CompanyServiceModule } from "@/services/company/companyService.module"
 import { ProductServiceModule } from "@/services/product/productService.module"
 
-import { CompanyController } from "./company.controller"
-import { ProductController } from "./product.controller"
+import { CompanyController } from "./controllers/company.controller"
+import { ProductController } from "./controllers/product.controller"
 
 @Module({
   imports: [CompanyServiceModule, ProductServiceModule],
