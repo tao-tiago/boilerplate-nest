@@ -1,15 +1,17 @@
 export const logger = {
   correlationId: crypto.randomUUID(),
-  cacheHit: false
+  cacheHit: false,
+  service: "mobility-api"
 }
 
 export type Logger = typeof logger & {
-  service?: string
-  payload?: unknown
-  operation?: string
-  status?: number
+  payload: unknown
+  operation: string
+  status: number
   message: string[]
-  errorMessage?: unknown
-  stack?: unknown
+  errorMessage: unknown
+  method: string
+  path: string
+  stack: unknown
   timestamp: string
 }
