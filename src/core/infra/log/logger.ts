@@ -1,10 +1,10 @@
-export const logger = {
+export const loggerContext = {
   correlationId: crypto.randomUUID(),
   cacheHit: false,
-  service: "mobility-api"
+  service: "service-api"
 }
 
-export type Logger = typeof logger & {
+export type Logger = typeof loggerContext & {
   payload: unknown
   operation: string
   status: number

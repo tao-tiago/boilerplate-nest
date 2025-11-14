@@ -1,4 +1,4 @@
-import { Logger, logger } from "../log/logger"
+import { Logger, loggerContext } from "../log/logger"
 
 export class Warning {
   public readonly message: string[]
@@ -7,7 +7,7 @@ export class Warning {
 
   constructor(message: string | string[], status = 500, loggerError: Partial<Logger> = {}) {
     this.status = status
-    this.logger = { ...logger, ...loggerError }
+    this.logger = { ...loggerContext, ...loggerError }
 
     if (typeof message === "string") {
       this.message = [message]

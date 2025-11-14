@@ -1,13 +1,13 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Injectable } from "@nestjs/common"
 import { Request, Response } from "express"
 
-import { Logger, logger } from "@/core/infra/log/logger"
+import { Logger, loggerContext } from "@/core/infra/log/logger"
 import { LoggerService } from "@/core/infra/log/logger.service"
 import { Warning } from "@/core/infra/warning"
 
 @Injectable()
 @Catch()
-export class ExceptionHTTP implements ExceptionFilter {
+export class LoggerFilter implements ExceptionFilter {
   constructor(private readonly loggerService: LoggerService) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
@@ -18,8 +18,8 @@ export class ExceptionHTTP implements ExceptionFilter {
     const { method, params, path: uri } = request
     const path = `${uri}${params.path ? (Array.isArray(params.path) ? params.path.join("/") : `${params.path}`) : ""}`
 
-    const loggerContext = {
-      ...logger,
+    const loggerParser = {
+      ...loggerContext,
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       message: ["Occured an unknown error. Please, try again later."],
       method,
@@ -27,41 +27,41 @@ export class ExceptionHTTP implements ExceptionFilter {
     } as Logger
 
     if (exception instanceof HttpException) {
-      loggerContext.status = exception.getStatus()
+      loggerParser.status = exception.getStatus()
 
       const httpResponse = exception.getResponse()
 
       if (typeof httpResponse === "string") {
-        loggerContext.message = [httpResponse]
+        loggerParser.message = [httpResponse]
       }
 
       if (typeof httpResponse === "object" && "message" in httpResponse) {
         const respMessage = (httpResponse as { message: string }).message
-        loggerContext.message = Array.isArray(respMessage) ? respMessage : [respMessage]
+        loggerParser.message = Array.isArray(respMessage) ? respMessage : [respMessage]
       }
     }
 
     if (exception instanceof Warning) {
-      loggerContext.status = exception.status
-      loggerContext.message = exception.message
+      loggerParser.status = exception.status
+      loggerParser.message = exception.message
 
-      Object.assign(loggerContext, {
-        ...loggerContext,
+      Object.assign(loggerParser, {
+        ...loggerParser,
         ...exception.logger
       })
     }
 
     if (exception instanceof Error) {
-      loggerContext.errorMessage = exception.message
-      loggerContext.stack = exception.stack
+      loggerParser.errorMessage = exception.message
+      loggerParser.stack = exception.stack
     }
 
-    if (loggerContext.status >= 500 && loggerContext.status <= 599) {
-      this.loggerService.error(loggerContext)
+    if (loggerParser.status >= 500 && loggerParser.status <= 599) {
+      this.loggerService.error(loggerParser)
     }
 
-    response.status(loggerContext.status).json({
-      message: loggerContext.message
+    response.status(loggerParser.status).json({
+      message: loggerParser.message
     })
   }
 }

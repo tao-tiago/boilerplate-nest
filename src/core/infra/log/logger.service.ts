@@ -1,7 +1,7 @@
 import { Injectable, LoggerService as NestLoggerService } from "@nestjs/common"
 import * as winston from "winston"
 
-import { Logger, logger } from "./logger"
+import { Logger, loggerContext } from "./logger"
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
@@ -19,14 +19,14 @@ export class LoggerService implements NestLoggerService {
   }
 
   log(context: Partial<Logger> = {}) {
-    this.winstonLogger.info("log", { ...logger, ...context })
+    this.winstonLogger.info("log", { ...context, ...loggerContext })
   }
 
   error(context: Partial<Logger> = {}) {
-    this.winstonLogger.error("error", { ...logger, ...context })
+    this.winstonLogger.error({ ...context, ...loggerContext })
   }
 
   warn(context: Partial<Logger> = {}) {
-    this.winstonLogger.warn("warn", { ...logger, ...context })
+    this.winstonLogger.warn("warn", { ...context, ...loggerContext })
   }
 }
