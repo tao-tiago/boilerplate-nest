@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common"
-import { CompanyRepositoryModule } from "src/repositories/company/companyRepository.module"
+import { CompanyRepositoryModule } from "src/repositories/company/company.module"
 
 import { CreateCompanyService } from "./createCompany/createCompany.service"
 import { DeleteCompanyService } from "./deleteCompany/deleteCompany.service"

@@ -3,7 +3,7 @@ export const NODE_ENV = process.env.NODE_ENV || "development"
 
 // JWT configuration
 export const JWT_SECRET = process.env.JWT_SECRET || "default"
-export const JWT_EXPIRATION = process.env.JWT_EXPIRATION
+export const JWT_EXPIRATION = Number(process.env.JWT_EXPIRATION) || 3600
 
 // Redis configuration
 export const REDIS_HOST = process.env.REDIS_HOST || "localhost"

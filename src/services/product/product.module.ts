@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common"
-import { ProductRepositoryModule } from "src/repositories/product/productRepository.module"
+import { ProductRepositoryModule } from "src/repositories/product/product.module"
 
-import { CompanyRepositoryModule } from "@/repositories/company/companyRepository.module"
+import { CompanyRepositoryModule } from "@/repositories/company/company.module"
 
 import { CreateProductService } from "./createProduct/createProduct.service"
 import { DeleteProductService } from "./deleteProduct/deleteProduct.service"
