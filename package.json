@@ -14,11 +14,14 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "db:generate": "prisma generate --schema=src/core/infra/db/structure/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=src/core/infra/db/structure/schema.prisma",
+    "db:studio": "prisma studio --schema=src/core/infra/db/structure/schema.prisma",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --maxWorkers=4 --coverageReporters=lcov",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "version": "echo $npm_package_version",
+    "prepare": "if [ -f node_modules/.bin/husky ]; then husky; fi"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
