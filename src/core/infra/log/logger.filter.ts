@@ -3,12 +3,13 @@ import { Request, Response } from "express"
 
 import { Logger, loggerContext } from "@/core/infra/log/logger"
 import { LoggerService } from "@/core/infra/log/logger.service"
-import { Warning } from "@/core/infra/warning"
+
+import { Warning } from "./warning.class"
 
 @Injectable()
 @Catch()
 export class LoggerFilter implements ExceptionFilter {
-  constructor(private readonly loggerService: LoggerService) {}
+  constructor(private readonly logger: LoggerService) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
@@ -52,12 +53,12 @@ export class LoggerFilter implements ExceptionFilter {
     }
 
     if (exception instanceof Error) {
-      loggerParser.errorMessage = exception.message
+      loggerParser.logMessage = exception.message
       loggerParser.stack = exception.stack
     }
 
     if (loggerParser.status >= 500 && loggerParser.status <= 599) {
-      this.loggerService.error(loggerParser)
+      this.logger.error(loggerParser)
     }
 
     response.status(loggerParser.status).json({

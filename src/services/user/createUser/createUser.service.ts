@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common"
 import { hash } from "bcryptjs"
 
-import { Warning } from "@/core/infra/warning"
+import { Warning } from "@/core/infra/log/warning.class"
 import { UserRepository } from "@/repositories/user/user.repository"
 
 import { CreateUserDTO } from "./createUser.dto"

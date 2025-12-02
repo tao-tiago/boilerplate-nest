@@ -3,17 +3,21 @@ import { Prisma, User } from "@prisma/client"
 
 import { CacheService } from "@/core/infra/cache/cache.service"
 import { DbService } from "@/core/infra/db/db.service"
+import { LoggerService } from "@/core/infra/log/logger.service"
 
 import { IUser } from "./user.types"
 
 @Injectable()
 export class UserRepository implements IUser {
   constructor(
+    private logger: LoggerService,
     private db: DbService,
     private cache: CacheService
   ) {}
 
   async list(data: Prisma.UserFindManyArgs) {
+    this.logger.log({ operation: "UserRepository.list" })
+
     const [count, rows] = await this.db.$transaction([
       this.db.user.count({
         where: data.where

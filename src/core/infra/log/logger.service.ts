@@ -19,14 +19,26 @@ export class LoggerService implements NestLoggerService {
   }
 
   log(context: Partial<Logger> = {}) {
-    this.winstonLogger.info("log", { ...context, ...loggerContext })
+    Object.assign(loggerContext, {
+      ...loggerContext,
+      ...context
+    })
+    this.winstonLogger.info(context.logMessage || "log", { ...loggerContext })
   }
 
   error(context: Partial<Logger> = {}) {
-    this.winstonLogger.error({ ...context, ...loggerContext })
+    Object.assign(loggerContext, {
+      ...loggerContext,
+      ...context
+    })
+    this.winstonLogger.error(context.logMessage || "error", { ...loggerContext })
   }
 
   warn(context: Partial<Logger> = {}) {
-    this.winstonLogger.warn("warn", { ...context, ...loggerContext })
+    Object.assign(loggerContext, {
+      ...loggerContext,
+      ...context
+    })
+    this.winstonLogger.warn(context.logMessage || "warn", { ...loggerContext })
   }
 }

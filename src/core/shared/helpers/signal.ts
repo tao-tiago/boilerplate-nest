@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import { Warning } from "@/core/infra/warning"
+import { Warning } from "@/core/infra/log/warning.class"
 
 type SignalOptions = {
   timeout?: number
@@ -31,7 +31,7 @@ export async function signal<T>(
     return response.data
   } catch (error) {
     if (signal.aborted) {
-      throw new Warning(timeoutErrorMessage, 503, { errorMessage: "http-timeout" })
+      throw new Warning(timeoutErrorMessage, 503, { logMessage: "http-timeout" })
     }
 
     throw error

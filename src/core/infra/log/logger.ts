@@ -1,6 +1,5 @@
 export const loggerContext = {
   correlationId: crypto.randomUUID(),
-  cacheHit: false,
   service: "service-api"
 }
 
@@ -9,7 +8,7 @@ export type Logger = typeof loggerContext & {
   operation: string
   status: number
   message: string[]
-  errorMessage: unknown
+  logMessage: string
   method: string
   path: string
   stack: unknown

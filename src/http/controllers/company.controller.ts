@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/
 
 import { Role } from "@/core/infra/auth/contracts/roles.enum"
 import { AllowRoles } from "@/core/infra/auth/decorators/roles.decorator"
+import { LoggerService } from "@/core/infra/log/logger.service"
 import { QueryId } from "@/core/shared/helpers/query-options.dto"
 import { filters } from "@/core/shared/utils/filters"
 import { CreateCompanyDTO } from "@/services/company/createCompany/createCompany.dto"
@@ -16,6 +17,7 @@ import { UpdateCompanyService } from "@/services/company/updateCompany/updateCom
 @Controller("api/v1/companies")
 export class CompanyController {
   constructor(
+    private logger: LoggerService,
     private listCompanyService: ListCompanyService,
     private createCompanyService: CreateCompanyService,
     private showCompanyService: ShowCompanyService,
@@ -42,6 +44,8 @@ export class CompanyController {
 
   @Get(":id")
   async showCompany(@Param() param: QueryId) {
+    this.logger.log({ operation: "CompanyController.showCompany", method: "GET", payload: param })
+
     return await this.showCompanyService.execute(param)
   }
 
