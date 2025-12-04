@@ -23,7 +23,7 @@ export class LoggerService implements NestLoggerService {
       ...loggerContext,
       ...context
     })
-    this.winstonLogger.info(context.logMessage || "log", { ...loggerContext })
+    this.winstonLogger.info("log", { ...loggerContext })
   }
 
   error(context: Partial<Logger> = {}) {
@@ -31,7 +31,7 @@ export class LoggerService implements NestLoggerService {
       ...loggerContext,
       ...context
     })
-    this.winstonLogger.error(context.logMessage || "error", { ...loggerContext })
+    this.winstonLogger.error("error", { ...loggerContext })
   }
 
   warn(context: Partial<Logger> = {}) {
@@ -39,6 +39,6 @@ export class LoggerService implements NestLoggerService {
       ...loggerContext,
       ...context
     })
-    this.winstonLogger.warn(context.logMessage || "warn", { ...loggerContext })
+    this.winstonLogger.warn("warn", { ...loggerContext })
   }
 }
