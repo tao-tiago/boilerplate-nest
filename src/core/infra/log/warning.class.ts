@@ -9,6 +9,8 @@ export class Warning {
     this.status = status
     this.logger = { ...loggerContext, ...loggerInternal }
 
+    Object.assign(loggerContext, this.logger)
+
     if (typeof message === "string") {
       this.message = [message]
     }
