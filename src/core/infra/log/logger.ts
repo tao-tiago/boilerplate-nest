@@ -1,9 +1,6 @@
-export const loggerContext = {
-  correlationId: crypto.randomUUID(),
-  service: "service-api"
-}
-
-export type Logger = typeof loggerContext & {
+export type Logger = {
+  correlationId: string
+  service: string
   payload: unknown
   operation: string
   status: number
@@ -14,3 +11,5 @@ export type Logger = typeof loggerContext & {
   stack: unknown
   timestamp: string
 }
+
+export const loggerContext: Partial<Logger> = {}

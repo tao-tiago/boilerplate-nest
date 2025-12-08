@@ -23,7 +23,7 @@ export class LoggerService implements NestLoggerService {
       ...loggerContext,
       ...context
     })
-    this.winstonLogger.info("log", { ...loggerContext })
+    this.winstonLogger.info("info", { ...loggerContext })
   }
 
   error(context: Partial<Logger> = {}) {
