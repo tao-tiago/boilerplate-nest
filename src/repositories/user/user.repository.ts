@@ -16,7 +16,7 @@ export class UserRepository implements IUser {
   ) {}
 
   async list(data: Prisma.UserFindManyArgs) {
-    this.logger.log({ operation: "UserRepository.list" })
+    this.logger.log({ message: "List Users in Repository", operation: "UserRepository.list" })
 
     const [count, rows] = await this.db.$transaction([
       this.db.user.count({

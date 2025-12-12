@@ -44,7 +44,12 @@ export class CompanyController {
 
   @Get(":id")
   async showCompany(@Param() param: QueryId) {
-    this.logger.log({ operation: "CompanyController.showCompany", method: "GET", payload: param })
+    this.logger.log({
+      message: "Take a Company in Controller",
+      operation: "CompanyController.showCompany",
+      method: "GET",
+      payload: param
+    })
 
     return await this.showCompanyService.execute(param)
   }

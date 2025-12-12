@@ -22,10 +22,11 @@ export class LoggerFilter implements ExceptionFilter {
     const loggerParser = {
       ...loggerContext,
       status: HttpStatus.INTERNAL_SERVER_ERROR,
-      message: ["Occured an unknown error. Please, try again later."],
       method,
       path
     } as Logger
+
+    let messageHumanReadable = ["Occured an unknown error. Please, try again later."]
 
     if (exception instanceof HttpException) {
       loggerParser.status = exception.getStatus()
@@ -33,18 +34,18 @@ export class LoggerFilter implements ExceptionFilter {
       const httpResponse = exception.getResponse()
 
       if (typeof httpResponse === "string") {
-        loggerParser.message = [httpResponse]
+        messageHumanReadable = [httpResponse]
       }
 
       if (typeof httpResponse === "object" && "message" in httpResponse) {
         const respMessage = (httpResponse as { message: string }).message
-        loggerParser.message = Array.isArray(respMessage) ? respMessage : [respMessage]
+        messageHumanReadable = Array.isArray(respMessage) ? respMessage : [respMessage]
       }
     }
 
     if (exception instanceof Warning) {
       loggerParser.status = exception.status
-      loggerParser.message = exception.message
+      messageHumanReadable = exception.message
 
       Object.assign(loggerParser, {
         ...loggerParser,
@@ -53,7 +54,7 @@ export class LoggerFilter implements ExceptionFilter {
     }
 
     if (exception instanceof Error) {
-      loggerParser.logMessage = exception.message
+      loggerParser.message = exception.message
       loggerParser.stack = exception.stack
     }
 
@@ -62,7 +63,7 @@ export class LoggerFilter implements ExceptionFilter {
     }
 
     response.status(loggerParser.status).json({
-      message: loggerParser.message
+      message: messageHumanReadable
     })
   }
 }

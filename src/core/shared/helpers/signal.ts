@@ -31,7 +31,7 @@ export async function signal<T>(
     return response.data
   } catch (error) {
     if (signal.aborted) {
-      throw new Warning(timeoutErrorMessage, 503, { logMessage: "http-timeout" })
+      throw new Warning(timeoutErrorMessage, 503, { message: "HTTP Timeout Error" })
     }
 
     throw error

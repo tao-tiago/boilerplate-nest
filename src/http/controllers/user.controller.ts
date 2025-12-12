@@ -18,7 +18,12 @@ export class UserController {
 
   @Get()
   async listUsers(@Query() query: ListUserDTO) {
-    this.logger.log({ operation: "UserController.listUsers", method: "GET", payload: query })
+    this.logger.log({
+      message: "List Users in Controller",
+      operation: "UserController.listUsers",
+      method: "GET",
+      payload: query
+    })
 
     const payload = filters<ListUserFilter>(query)
 

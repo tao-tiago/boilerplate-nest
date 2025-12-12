@@ -14,7 +14,7 @@ export class ListUserService {
     private userRepository: UserRepository
   ) {}
   async execute(payload: QueryOptionsResponse<ListUserFilter>) {
-    this.logger.log({ operation: "ListUserService.execute" })
+    this.logger.log({ message: "List Users in Service", operation: "ListUserService.execute" })
 
     const { orderBy, order, skip, take } = payload
 

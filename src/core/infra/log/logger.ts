@@ -4,8 +4,7 @@ export type Logger = {
   payload: unknown
   operation: string
   status: number
-  message: string[]
-  logMessage: string
+  message: string
   method: string
   path: string
   stack: unknown
