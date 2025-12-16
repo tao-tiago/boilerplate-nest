@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common"
-import { hash } from "bcryptjs"
 
 import { Warning } from "@/core/infra/log/warning.class"
+import { generateHash } from "@/core/shared/helpers/hash"
 import { UserRepository } from "@/repositories/user/user.repository"
 
 import { CreateUserDTO } from "./createUser.dto"
@@ -17,11 +17,11 @@ export class CreateUserService {
       throw new Warning("User already exists", 409)
     }
 
-    const passwordHash = await hash(payload.password, 6)
+    const hash = generateHash(payload.password)
 
     await this.userRepository.create({
       ...payload,
-      password: passwordHash
+      password: hash
     })
   }
 }

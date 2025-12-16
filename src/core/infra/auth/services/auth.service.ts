@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
-import { compare } from "bcryptjs"
 
+import { compareHash } from "@/core/shared/helpers/hash"
 import { UserRepository } from "@/repositories/user/user.repository"
 
 import { AuthDTO } from "./auth.dto"
@@ -20,7 +20,7 @@ export class AuthService {
       throw new UnauthorizedException()
     }
 
-    const isMatch = await compare(payload.password, user.password)
+    const isMatch = await compareHash(payload.password, user.password)
 
     if (!isMatch) {
       throw new UnauthorizedException()
