@@ -7,18 +7,16 @@ import { RolesGuard } from "./core/infra/auth/guards/roles.guard"
 import { LoggerFilter } from "./core/infra/log/logger.filter"
 import { LoggerModule } from "./core/infra/log/logger.module"
 import { LoggerService } from "./core/infra/log/logger.service"
-import { ControllerRootModule } from "./http/controllersRoot.module"
+import { ControllersRootModule } from "./http/controllersRoot.module"
+import { WorkersRootModule } from "./workers/workersRoot.module"
 
 @Module({
-  imports: [AuthModule, LoggerModule, ControllerRootModule],
+  imports: [AuthModule, LoggerModule, ControllersRootModule, WorkersRootModule],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
-    LoggerService,
-    {
-      provide: APP_FILTER,
-      useClass: LoggerFilter
-    }
+    { provide: APP_FILTER, useClass: LoggerFilter },
+    LoggerService
   ]
 })
 export class AppModule {}

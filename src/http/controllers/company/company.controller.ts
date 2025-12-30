@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common"
 
-import { Role } from "@/core/infra/auth/contracts/roles.enum"
-import { AllowRoles } from "@/core/infra/auth/decorators/roles.decorator"
+// import { Role } from "@/core/infra/auth/contracts/roles.enum"
+// import { AllowRoles } from "@/core/infra/auth/decorators/roles.decorator"
 import { LoggerService } from "@/core/infra/log/logger.service"
 import { QueryId } from "@/core/shared/helpers/query-options.dto"
 import { filters } from "@/core/shared/utils/filters"
@@ -25,7 +25,7 @@ export class CompanyController {
     private deleteCompanyService: DeleteCompanyService
   ) {}
 
-  @AllowRoles(Role.Admin)
+  // @AllowRoles(Role.Admin)
   @Get()
   async listCompanies(@Query() query: ListCompanyDTO) {
     const payload = filters<ListCompanyFilter>(query)

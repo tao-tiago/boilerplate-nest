@@ -31,6 +31,8 @@ export class ProductRepository implements IProduct {
     const product = await this.db.product.create({ data })
 
     await this.cache.saveData(`product:${product.id}`, product)
+
+    return product
   }
 
   async update(id: string, data: Prisma.ProductUpdateInput) {

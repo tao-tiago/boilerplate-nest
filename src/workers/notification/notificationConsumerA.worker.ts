@@ -1,0 +1,51 @@
+import { Inject, Injectable } from "@nestjs/common"
+import Redis from "ioredis"
+
+import { LoggerService } from "@/core/infra/log/logger.service"
+import { BaseStreamConsumer } from "@/core/infra/stream/stream.consumer"
+import { StreamProducer } from "@/core/infra/stream/stream.producer"
+import { STREAM } from "@/core/infra/stream/stream.service"
+import { IGroups, IQueue, IQueuePayload } from "@/core/infra/stream/stream.types"
+
+@Injectable()
+export class NotificationConsumerA extends BaseStreamConsumer {
+  protected QUEUE = "NOTIFICATION_A" as IQueue
+  protected GROUP = "notification-group-a" as IGroups
+  protected CONSUMER = "consumer"
+
+  constructor(
+    @Inject(STREAM) stream: Redis,
+    private readonly streamProducer: StreamProducer,
+    private readonly logger: LoggerService
+  ) {
+    super(stream)
+  }
+
+  async handleMessage(payload: IQueuePayload) {
+    try {
+      await this.callExternalService()
+
+      await this.streamProducer.publish({
+        queue: "NOTIFICATION_B",
+        payload
+      })
+
+      this.logger.log({
+        message: "Consumer Service A processed a message",
+        operation: "NotificationConsumerA.handleMessage"
+      })
+    } catch (error) {
+      this.logger.log({
+        message: error.message,
+        stack: error.stack,
+        operation: "NotificationConsumerA.handleMessage"
+      })
+
+      throw error
+    }
+  }
+
+  private async callExternalService() {
+    return new Promise((resolve) => setTimeout(resolve, 5000))
+  }
+}
