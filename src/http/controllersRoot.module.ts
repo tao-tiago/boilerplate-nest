@@ -1,17 +1,11 @@
 import { Module } from "@nestjs/common"
 
-import { AuthModule } from "@/core/infra/auth/auth.module"
-import { CompanyServiceModule } from "@/services/company/company.module"
-import { ProductServiceModule } from "@/services/product/product.module"
-import { UserServiceModule } from "@/services/user/user.module"
-
-import { AuthController } from "./controllers/auth.controller"
-import { CompanyController } from "./controllers/company.controller"
-import { ProductController } from "./controllers/product.controller"
-import { UserController } from "./controllers/user.controller"
+import { AuthControllerModule } from "./controllers/auth/auth.module"
+import { CompanyControllerModule } from "./controllers/company/company.module"
+import { ProductControllerModule } from "./controllers/product/product.module"
+import { UserControllerModule } from "./controllers/user/user.module"
 
 @Module({
-  imports: [AuthModule, CompanyServiceModule, ProductServiceModule, UserServiceModule],
-  controllers: [AuthController, CompanyController, ProductController, UserController]
+  imports: [AuthControllerModule, CompanyControllerModule, ProductControllerModule, UserControllerModule]
 })
-export class ControllerRootModule {}
+export class ControllersRootModule {}
