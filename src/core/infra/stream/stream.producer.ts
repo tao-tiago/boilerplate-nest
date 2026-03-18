@@ -11,7 +11,7 @@ export class StreamProducer {
     private readonly stream: Redis
   ) {}
 
-  async publish({ queue, payload }: IQueueArgs) {
+  async publish<T>({ queue, payload }: IQueueArgs<T>) {
     const fields: string[] = []
 
     for (const [key, value] of Object.entries(payload)) {
@@ -21,7 +21,7 @@ export class StreamProducer {
     await this.stream.xadd(queue, "*", ...fields)
   }
 
-  async addProcess(correlationId: string, process: string) {
+  async addProcess<T extends string | number | Buffer>(correlationId: string, process: T) {
     await this.stream.sadd(`process:${correlationId}:done`, process)
   }
 

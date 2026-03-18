@@ -1,4 +1,4 @@
-import { Logger, loggerContext } from "./logger"
+import { Logger, loggerContext } from "@/core/infra/log/logger"
 
 export class Warning {
   public readonly message: string[]

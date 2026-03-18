@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common"
 
-import { Warning } from "@/core/infra/log/warning.class"
 import { generateHash } from "@/core/shared/helpers/hash"
+import { Warning } from "@/core/shared/helpers/warning"
 import { UserRepository } from "@/repositories/user/user.repository"
 
 import { CreateUserDTO } from "./createUser.dto"

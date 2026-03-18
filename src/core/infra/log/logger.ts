@@ -11,4 +11,6 @@ export type Logger = {
   timestamp: string
 }
 
-export const loggerContext: Partial<Logger> = {}
+export const loggerContext: Partial<Logger> = {
+  service: "service-api"
+}

@@ -28,7 +28,7 @@ export class CreateProductService {
     })
 
     await this.streamProducer.publish({
-      queue: "AUDITORY_MAIN",
+      queue: "NOTIFICATION_A",
       payload: {
         type: "product.created",
         correlationId: product.id,

@@ -18,6 +18,12 @@ export class QueryOptionsDTO {
   size = 10
 }
 
+export type QueryOptionsResponse<T> = Pick<QueryOptionsDTO, "orderBy" | "order"> & {
+  skip: number
+  take: number
+  filter: Record<keyof T, string>
+}
+
 export class QueryCompanyId {
   @IsUUID()
   companyId: string
@@ -26,10 +32,4 @@ export class QueryCompanyId {
 export class QueryId {
   @IsUUID()
   id: string
-}
-
-export type QueryOptionsResponse<T> = Pick<QueryOptionsDTO, "orderBy" | "order"> & {
-  skip: number
-  take: number
-  filter: Record<keyof T, string>
 }

@@ -1,29 +1,28 @@
-import { Inject, Injectable } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import Redis from "ioredis"
 
 import { LoggerService } from "@/core/infra/log/logger.service"
 import { BaseStreamConsumer } from "@/core/infra/stream/stream.consumer"
 import { StreamProducer } from "@/core/infra/stream/stream.producer"
-import { STREAM } from "@/core/infra/stream/stream.service"
-import { IGroups, IQueue, IQueuePayload } from "@/core/infra/stream/stream.types"
+import { IQueue, IQueuePayload } from "@/core/infra/stream/stream.types"
 
 @Injectable()
 export class AuditoryAggregatorConsumer extends BaseStreamConsumer {
   protected QUEUE = "AUDITORY_AGGREGATION" as IQueue
-  protected GROUP = "group-auditory-aggregator" as IGroups
+  protected GROUP = "group-auditory-aggregator"
   protected CONSUMER = "consumer"
 
   private readonly REQUIRED = ["A", "B", "C"]
 
   constructor(
-    @Inject(STREAM) stream: Redis,
+    public readonly stream: Redis,
     private readonly streamProducer: StreamProducer,
     private readonly logger: LoggerService
   ) {
     super(stream)
   }
 
-  async handleMessage(data: IQueuePayload) {
+  async handleMessage(data: IQueuePayload<unknown>) {
     try {
       const completedServices = await this.streamProducer.getProcess(data.correlationId)
       const aggregatorDone = completedServices.includes("aggregator")

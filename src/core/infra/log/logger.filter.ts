@@ -1,10 +1,10 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Injectable } from "@nestjs/common"
 import { Request, Response } from "express"
 
-import { Logger, loggerContext } from "@/core/infra/log/logger"
-import { LoggerService } from "@/core/infra/log/logger.service"
+import { Warning } from "@/core/shared/helpers/warning"
 
-import { Warning } from "./warning.class"
+import { Logger, loggerContext } from "./logger"
+import { LoggerService } from "./logger.service"
 
 @Injectable()
 @Catch()
@@ -26,7 +26,7 @@ export class LoggerFilter implements ExceptionFilter {
       path
     } as Logger
 
-    let messageHumanReadable = ["Occured an unknown error. Please, try again later."]
+    let messageHumanReadable = ["An unknown error occurred. Please, try again later."]
 
     if (exception instanceof HttpException) {
       loggerParser.status = exception.getStatus()

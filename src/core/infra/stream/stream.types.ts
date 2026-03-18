@@ -1,5 +1,3 @@
-import { RedisValue } from "ioredis"
-
 export type IQueue =
   | "NOTIFICATION_A"
   | "NOTIFICATION_B"
@@ -7,16 +5,14 @@ export type IQueue =
   | "AUDITORY_MAIN"
   | "AUDITORY_PROCESSING"
   | "AUDITORY_AGGREGATION"
-export type IGroups = string
 
-export type IQueuePayload = {
-  type: string
+export type IQueuePayload<T> = {
   correlationId: string
-} & Record<string, RedisValue>
+} & T
 
-export type IQueueArgs = {
+export type IQueueArgs<T> = {
   queue: IQueue
-  payload: IQueuePayload
+  payload: IQueuePayload<T>
 }
 
 export type IParseMessage = Array<[string, string[]]>

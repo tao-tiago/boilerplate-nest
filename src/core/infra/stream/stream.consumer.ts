@@ -2,11 +2,11 @@ import { Inject, Logger, OnModuleInit } from "@nestjs/common"
 import redis from "ioredis"
 
 import { STREAM } from "./stream.service"
-import { IGroups, IParseConsumer, IParseMessage, IQueue, IQueuePayload } from "./stream.types"
+import { IParseConsumer, IParseMessage, IQueue } from "./stream.types"
 
 export abstract class BaseStreamConsumer implements OnModuleInit {
   protected abstract QUEUE: IQueue
-  protected abstract GROUP: IGroups
+  protected abstract GROUP: string
   protected abstract CONSUMER: string
 
   protected BLOCK_TIME = 5000
@@ -76,10 +76,7 @@ export abstract class BaseStreamConsumer implements OnModuleInit {
       try {
         const data = this.parseFields(fields)
 
-        await this.handleMessage({
-          ...data,
-          id
-        })
+        await this.handleMessage(data)
 
         await this.stream.xack(this.QUEUE, this.GROUP, id)
       } catch (error) {
@@ -88,12 +85,12 @@ export abstract class BaseStreamConsumer implements OnModuleInit {
     }
   }
 
-  private parseFields(fields: string[]): IQueuePayload {
-    return fields.reduce<IQueuePayload>((acc, _, i, arr) => {
+  private parseFields(fields: string[]): Record<string, string> {
+    return fields.reduce((acc, _, i, arr) => {
       if (i % 2 === 0) acc[arr[i]] = arr[i + 1]
       return acc
-    }, {} as IQueuePayload)
+    }, {})
   }
 
-  protected abstract handleMessage(data: IQueuePayload): Promise<void>
+  protected abstract handleMessage(data: Record<string, string>): Promise<void>
 }
