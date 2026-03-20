@@ -30,14 +30,16 @@ export class NotificationConsumerA extends BaseStreamConsumer {
       })
 
       this.logger.log({
-        message: "Consumer Service A processed a message",
-        operation: "NotificationConsumerA.handleMessage"
+        correlationId: payload.correlationId,
+        operation: "NotificationConsumerA.handleMessage",
+        message: "Consumer Service A processed a message"
       })
     } catch (error) {
-      this.logger.log({
+      this.logger.error({
+        correlationId: payload.correlationId,
+        operation: "NotificationConsumerA.handleMessage",
         message: error.message,
-        stack: error.stack,
-        operation: "NotificationConsumerA.handleMessage"
+        stack: error.stack
       })
 
       throw error

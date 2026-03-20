@@ -18,19 +18,21 @@ export class NotificationConsumerC extends BaseStreamConsumer {
     super(stream)
   }
 
-  async handleMessage(_payload: IQueuePayload<unknown>) {
+  async handleMessage(payload: IQueuePayload<unknown>) {
     try {
       await this.callExternalService()
 
       this.logger.log({
-        message: "Consumer Service C processed a message",
-        operation: "NotificationConsumerC.handleMessage"
+        correlationId: payload.correlationId,
+        operation: "NotificationConsumerC.handleMessage",
+        message: "Consumer Service C processed a message"
       })
     } catch (error) {
-      this.logger.log({
+      this.logger.error({
+        correlationId: payload.correlationId,
+        operation: "NotificationConsumerC.handleMessage",
         message: error.message,
-        stack: error.stack,
-        operation: "NotificationConsumerC.handleMessage"
+        stack: error.stack
       })
     }
   }
