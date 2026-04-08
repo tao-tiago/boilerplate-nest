@@ -4,8 +4,8 @@ import { IsEnum, IsNotEmpty, IsString } from "class-validator"
 export class CreateCompanyDTO {
   @IsNotEmpty()
   @IsString()
-  corporateName: string
+  corporateName!: string
 
   @IsEnum(TypeCompany)
-  typeCompany: TypeCompany
+  typeCompany!: TypeCompany
 }

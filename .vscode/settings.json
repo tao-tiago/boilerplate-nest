@@ -9,8 +9,12 @@
   },
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "npm.packageManager": "pnpm",
+  "editor.rulers": [
+    110,
+    120
+  ],
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "extensions.ignoreRecommendations": false,
   "[javascript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
@@ -19,10 +23,5 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "editor.rulers": [
-    110,
-    120
-  ],
-  "extensions.ignoreRecommendations": false,
+  }
 }
