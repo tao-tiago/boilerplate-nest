@@ -1,14 +1,5 @@
 {
   "compilerOptions": {
-    "types": [
-      "node",
-      "jest"
-    ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
     "module": "commonjs",
     "target": "ES2023",
     "outDir": "dist",
@@ -26,7 +17,16 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "types": [
+      "node",
+      "jest"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
   },
   "include": [
     "**/*.ts"
