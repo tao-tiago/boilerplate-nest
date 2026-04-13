@@ -1,6 +1,5 @@
 # Enviroment variables
 .env
-.env.local
 
 # Compiled output
 /dist
