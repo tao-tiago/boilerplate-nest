@@ -1,9 +1,9 @@
 import { Logger, loggerContext } from "@/core/infra/log/logger"
 
 export class Warning {
-  public readonly message: string[]
-  public readonly status: number
-  public readonly logger: Partial<Logger>
+  public message: string[] = []
+  public status: number
+  public logger: Partial<Logger>
 
   constructor(message: string | string[], status = 500, loggerInternal: Partial<Logger> = {}) {
     this.status = status

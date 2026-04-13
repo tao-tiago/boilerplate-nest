@@ -1,15 +1,17 @@
 type FormatTimestampProps = {
   timestamp: number
-  locale?: Intl.LocalesArgument
-  options?: Intl.DateTimeFormatOptions
+  locales?: Intl.LocalesArgument
+  options?: Intl.DateTimeFormatOptions & {
+    fractionalSecondDigits?: 1 | 2 | 3
+  }
 }
 
 export const formatTimestamp = ({
   timestamp,
-  locale = "en-US",
+  locales = "en-US",
   options = {
     year: "numeric",
     month: "2-digit",
     day: "2-digit"
   }
-}: FormatTimestampProps) => new Date(timestamp).toLocaleString(locale, options)
+}: FormatTimestampProps) => new Date(timestamp).toLocaleString(locales, options)

@@ -26,10 +26,10 @@ export type QueryOptionsResponse<T> = Pick<QueryOptionsDTO, "orderBy" | "order">
 
 export class QueryCompanyId {
   @IsUUID()
-  companyId: string
+  companyId!: string
 }
 
 export class QueryId {
   @IsUUID()
-  id: string
+  id!: string
 }

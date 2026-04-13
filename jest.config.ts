@@ -33,7 +33,12 @@ const jestConfig: JestConfigWithTsJest = {
   modulePathIgnorePatterns: ["<rootDir>/.next/"],
   clearMocks: true,
   coverageThreshold: {
-    global: {}
+    global: {
+      // statements: 80,
+      // branches: 80,
+      // functions: 80,
+      // lines: 80
+    }
   },
   collectCoverage: false,
   collectCoverageFrom: ["src/core/shared/**/*.ts", "src/services/**/*service.ts"],

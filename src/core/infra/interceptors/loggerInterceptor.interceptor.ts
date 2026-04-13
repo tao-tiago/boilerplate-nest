@@ -17,8 +17,6 @@ export class LoggerInterceptor implements NestInterceptor {
 
     const correlationId = request.headers["x-correlation-id"] ?? randomUUID()
 
-    request.correlationId = correlationId
-
     Object.assign(loggerContext, {
       correlationId
     })

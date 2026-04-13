@@ -41,7 +41,7 @@ describe("utils > formatTimestamp", () => {
     it("should format timestamp in Brazilian locale (pt-BR)", () => {
       const result = formatTimestamp({
         timestamp: testTimestamp,
-        locale: "pt-BR"
+        locales: "pt-BR"
       })
       expect(result).toBe("20/05/2025")
     })
@@ -49,7 +49,7 @@ describe("utils > formatTimestamp", () => {
     it("should format timestamp in German locale (de-DE)", () => {
       const result = formatTimestamp({
         timestamp: testTimestamp,
-        locale: "de-DE"
+        locales: "de-DE"
       })
       expect(result).toBe("20.05.2025")
     })
@@ -57,7 +57,7 @@ describe("utils > formatTimestamp", () => {
     it("should format timestamp in Japanese locale (ja-JP)", () => {
       const result = formatTimestamp({
         timestamp: testTimestamp,
-        locale: "ja-JP"
+        locales: "ja-JP"
       })
       expect(result).toBe("2025/05/20")
     })
@@ -65,7 +65,7 @@ describe("utils > formatTimestamp", () => {
     it("should handle multiple locales array", () => {
       const result = formatTimestamp({
         timestamp: testTimestamp,
-        locale: ["fr-FR", "en-US"]
+        locales: ["fr-FR", "en-US"]
       })
       expect(result).toBe("20/05/2025")
     })
@@ -258,7 +258,7 @@ describe("utils > formatTimestamp", () => {
     it("should format full datetime with Brazilian locale in UTC", () => {
       const result = formatTimestamp({
         timestamp: testTimestamp,
-        locale: "pt-BR",
+        locales: "pt-BR",
         options: {
           timeZone: "UTC",
           year: "numeric",
