@@ -1,7 +1,6 @@
-import { Injectable } from "@nestjs/common"
+import { Injectable, Logger } from "@nestjs/common"
 import Redis from "ioredis"
 
-import { LoggerService } from "@/core/infra/log/logger.service"
 import { BaseStreamConsumer } from "@/core/infra/stream/stream.consumer"
 import { StreamProducer } from "@/core/infra/stream/stream.producer"
 import { IQueue, IQueuePayload } from "@/core/infra/stream/stream.types"
@@ -12,12 +11,12 @@ export class AuditoryAggregatorConsumer extends BaseStreamConsumer {
   protected GROUP = "group-auditory-aggregator"
   protected CONSUMER = "consumer"
 
+  private readonly logger = new Logger(AuditoryAggregatorConsumer.name)
   private readonly REQUIRED = ["A", "B", "C"]
 
   constructor(
     public readonly stream: Redis,
-    private readonly streamProducer: StreamProducer,
-    private readonly logger: LoggerService
+    private readonly streamProducer: StreamProducer
   ) {
     super(stream)
   }
@@ -32,14 +31,12 @@ export class AuditoryAggregatorConsumer extends BaseStreamConsumer {
 
         await this.streamProducer.addProcess(data.correlationId, "aggregator")
 
-        this.logger.log({
-          message: "Consumer Aggregator processed a message",
+        this.logger.log("Consumer Aggregator processed a message", {
           operation: "AuditoryAggregatorConsumer.handleMessage"
         })
       }
     } catch (error) {
-      this.logger.log({
-        message: error.message,
+      this.logger.error(error.message, {
         stack: error.stack,
         operation: "AuditoryAggregatorConsumer.handleMessage"
       })

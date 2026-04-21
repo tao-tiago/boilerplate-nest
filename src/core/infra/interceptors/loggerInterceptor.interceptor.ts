@@ -4,8 +4,6 @@ import { randomUUID } from "node:crypto"
 import { Observable } from "rxjs"
 import { tap } from "rxjs/operators"
 
-import { loggerContext } from "../log/logger"
-
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
   constructor(private readonly cls: ClsService) {}
@@ -16,10 +14,6 @@ export class LoggerInterceptor implements NestInterceptor {
     const response = http.getResponse()
 
     const correlationId = request.headers["x-correlation-id"] ?? randomUUID()
-
-    Object.assign(loggerContext, {
-      correlationId
-    })
 
     this.cls.set("correlationId", correlationId)
 

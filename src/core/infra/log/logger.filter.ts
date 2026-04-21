@@ -1,8 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Injectable } from "@nestjs/common"
 import { Request, Response } from "express"
 
-import { Warning } from "@/core/shared/helpers/warning"
-
 import { Logger, loggerContext } from "./logger"
 import { LoggerService } from "./logger.service"
 
@@ -27,6 +25,7 @@ export class LoggerFilter implements ExceptionFilter {
     } as Logger
 
     let messageHumanReadable = ["An unknown error occurred. Please, try again later."]
+    let messageInternalError = "Internal Server Error"
 
     if (exception instanceof HttpException) {
       loggerParser.status = exception.getStatus()
@@ -43,23 +42,13 @@ export class LoggerFilter implements ExceptionFilter {
       }
     }
 
-    if (exception instanceof Warning) {
-      loggerParser.status = exception.status
-      messageHumanReadable = exception.message
-
-      Object.assign(loggerParser, {
-        ...loggerParser,
-        ...exception.logger
-      })
-    }
-
     if (exception instanceof Error) {
-      loggerParser.message = exception.message
+      messageInternalError = exception.message
       loggerParser.stack = exception.stack
     }
 
     if (loggerParser.status >= 500 && loggerParser.status <= 599) {
-      this.logger.error(loggerParser)
+      this.logger.error(messageInternalError, loggerParser)
     }
 
     response.status(loggerParser.status).json({

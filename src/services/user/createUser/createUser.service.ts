@@ -1,7 +1,6 @@
-import { Injectable } from "@nestjs/common"
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
 
 import { generateHash } from "@/core/shared/helpers/hash"
-import { Warning } from "@/core/shared/helpers/warning"
 import { UserRepository } from "@/repositories/user/user.repository"
 
 import { CreateUserDTO } from "./createUser.dto"
@@ -14,7 +13,7 @@ export class CreateUserService {
     const userExists = await this.userRepository.findByEmail(payload.email)
 
     if (userExists) {
-      throw new Warning("User already exists", 409)
+      throw new HttpException("User already exists", HttpStatus.CONFLICT)
     }
 
     const hash = generateHash(payload.password)

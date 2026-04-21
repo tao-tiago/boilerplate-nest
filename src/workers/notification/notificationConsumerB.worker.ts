@@ -1,7 +1,6 @@
-import { Injectable } from "@nestjs/common"
+import { Injectable, Logger } from "@nestjs/common"
 import Redis from "ioredis"
 
-import { LoggerService } from "@/core/infra/log/logger.service"
 import { BaseStreamConsumer } from "@/core/infra/stream/stream.consumer"
 import { StreamProducer } from "@/core/infra/stream/stream.producer"
 import { IQueue, IQueuePayload } from "@/core/infra/stream/stream.types"
@@ -12,10 +11,11 @@ export class NotificationConsumerB extends BaseStreamConsumer {
   protected GROUP = "notification-group"
   protected CONSUMER = "consumer"
 
+  private readonly logger = new Logger(NotificationConsumerB.name)
+
   constructor(
     public readonly stream: Redis,
-    private readonly streamProducer: StreamProducer,
-    private readonly logger: LoggerService
+    private readonly streamProducer: StreamProducer
   ) {
     super(stream)
   }
@@ -29,16 +29,14 @@ export class NotificationConsumerB extends BaseStreamConsumer {
         payload
       })
 
-      this.logger.log({
+      this.logger.log("Consumer Service B processed a message", {
         correlationId: payload.correlationId,
-        operation: "NotificationConsumerB.handleMessage",
-        message: "Consumer Service B processed a message"
+        operation: "NotificationConsumerB.handleMessage"
       })
     } catch (error) {
-      this.logger.error({
+      this.logger.error(error.message, {
         correlationId: payload.correlationId,
         operation: "NotificationConsumerB.handleMessage",
-        message: error.message,
         stack: error.stack
       })
     }

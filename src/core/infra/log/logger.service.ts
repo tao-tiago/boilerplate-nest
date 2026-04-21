@@ -10,52 +10,56 @@ export class LoggerService implements NestLoggerService {
   private winstonLogger: winston.Logger
 
   constructor() {
+    this.winstonLogger = winston.addColors({
+      info: "green",
+      warn: "yellow",
+      error: "red"
+    })
+
     this.winstonLogger = winston.createLogger({
       level: "info",
       format: winston.format.combine(
-        winston.format.timestamp({ format: "YYYY-mm-DDTHH:mm:ssZ" }),
-        winston.format.json()
+        winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+        winston.format.errors({ stack: true }),
+        winston.format.json(),
+        winston.format.colorize({ all: true })
       ),
       transports: [new winston.transports.Console()]
     })
   }
 
-  log(context: Partial<Logger> & { message: string }) {
-    const { message, ...localContext } = context
-
-    Object.assign(loggerContext, {
-      ...loggerContext,
-      ...localContext
-    })
+  log(message: string, context: Partial<Logger> | string = {}) {
+    this.normalizeContext(context)
 
     this.winstonLogger.info(message, { ...loggerContext })
 
     clearObject(loggerContext, ["service"])
   }
 
-  error(context: Partial<Logger> & { message: string }) {
-    const { message, ...localContext } = context
-
-    Object.assign(loggerContext, {
-      ...loggerContext,
-      ...localContext
-    })
+  error(message: string, context: Partial<Logger> | string = {}) {
+    this.normalizeContext(context)
 
     this.winstonLogger.error(message, { ...loggerContext })
 
     clearObject(loggerContext, ["service"])
   }
 
-  warn(context: Partial<Logger> & { message: string }) {
-    const { message, ...localContext } = context
-
-    Object.assign(loggerContext, {
-      ...loggerContext,
-      ...localContext
-    })
+  warn(message: string, context: Partial<Logger> | string = {}) {
+    this.normalizeContext(context)
 
     this.winstonLogger.warn(message, { ...loggerContext })
 
     clearObject(loggerContext, ["service"])
+  }
+
+  private normalizeContext(context: Partial<Logger> | string) {
+    if (typeof context === "string") {
+      context = { operation: context }
+    }
+
+    Object.assign(loggerContext, {
+      ...loggerContext,
+      ...context
+    })
   }
 }
