@@ -6,7 +6,7 @@ import { IWebSocket } from "./webSocket.types"
 @WebSocketGateway({ cors: true })
 export class WebSocketService {
   @WebSocketServer()
-  server: Server
+  server!: Server
 
   emit({ webSocketKey, payload }: IWebSocket) {
     this.server.emit(webSocketKey, payload)
