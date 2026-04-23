@@ -3,7 +3,7 @@ import { JestConfigWithTsJest, pathsToModuleNameMapper } from "ts-jest"
 import { compilerOptions } from "./tsconfig.json"
 
 const jestConfig: JestConfigWithTsJest = {
-  testMatch: ["**/*.spec.ts?(x)"],
+  testMatch: ["**/*.spec.ts"],
   preset: "ts-jest",
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: "<rootDir>/"
@@ -13,6 +13,7 @@ const jestConfig: JestConfigWithTsJest = {
   setupFilesAfterEnv: [],
   coverageReporters: ["lcov", "html"],
   coverageDirectory: "./coverage",
+  clearMocks: true,
   reporters: [
     "default",
     [
@@ -28,10 +29,6 @@ const jestConfig: JestConfigWithTsJest = {
       }
     ]
   ],
-  moduleDirectories: ["node_modules", "<rootDir>"],
-  transformIgnorePatterns: ["<rootDir>/node_modules/"],
-  modulePathIgnorePatterns: ["<rootDir>/.next/"],
-  clearMocks: true,
   coverageThreshold: {
     global: {
       // statements: 80,
@@ -42,7 +39,8 @@ const jestConfig: JestConfigWithTsJest = {
   },
   collectCoverage: false,
   collectCoverageFrom: ["src/core/shared/**/*.ts", "src/services/**/*service.ts"],
-  coveragePathIgnorePatterns: ["helpers"]
+  coveragePathIgnorePatterns: ["helpers"],
+  globals: {}
 }
 
 export default jestConfig

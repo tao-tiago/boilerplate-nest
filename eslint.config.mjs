@@ -1,15 +1,13 @@
 import eslint from "@eslint/js"
+import eslintConfigPrettier from "eslint-config-prettier/flat"
 import prettierPlugin from "eslint-plugin-prettier"
-import globals from "globals"
-import tsEslint from "typescript-eslint"
 import simpleImportSort from "eslint-plugin-simple-import-sort"
+import tsEslint from "typescript-eslint"
+import globals from "globals"
 
-export default [
-  {
-    ignores: ["eslint.config.mjs"],
-  },
+const lintConfig = [
   eslint.configs.recommended,
-  eslint.configs.recommended,
+  eslintConfigPrettier,
   ...tsEslint.configs.recommended,
   {
     languageOptions: {
@@ -17,16 +15,16 @@ export default [
         ...globals.node,
         ...globals.jest,
       },
-      ecmaVersion: 5,
-      sourceType: "module",
       parserOptions: {
-        projectService: true,
+        allowDefaultProject: ['*.ts', '*.mjs'],
         tsconfigRootDir: import.meta.dirname,
-      }
+      },
+      ecmaVersion: 5,
+      sourceType: "module"
     }
   },
   {
-    files: ["**/*.js", "**/*.ts", "**/*.tsx"],
+    files: ["**/*.ts"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module"
@@ -95,3 +93,5 @@ export default [
     }
   }
 ]
+
+export default lintConfig
