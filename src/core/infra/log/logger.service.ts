@@ -29,37 +29,46 @@ export class LoggerService implements NestLoggerService {
   }
 
   log(message: string, context: Partial<Logger> | string = {}) {
-    this.normalizeContext(context)
+    const normalizedContext = this.normalizeContext(context, loggerContext)
 
-    this.winstonLogger.info(message, { ...loggerContext })
+    Object.assign(loggerContext, normalizedContext)
+
+    this.winstonLogger.info(message, normalizedContext)
 
     clearObject(loggerContext, ["service"])
   }
 
   error(message: string, context: Partial<Logger> | string = {}) {
-    this.normalizeContext(context)
+    const normalizedContext = this.normalizeContext(context, loggerContext)
 
-    this.winstonLogger.error(message, { ...loggerContext })
+    Object.assign(loggerContext, normalizedContext)
+
+    this.winstonLogger.error(message, normalizedContext)
 
     clearObject(loggerContext, ["service"])
   }
 
   warn(message: string, context: Partial<Logger> | string = {}) {
-    this.normalizeContext(context)
+    const normalizedContext = this.normalizeContext(context, loggerContext)
 
-    this.winstonLogger.warn(message, { ...loggerContext })
+    Object.assign(loggerContext, normalizedContext)
+
+    this.winstonLogger.warn(message, normalizedContext)
 
     clearObject(loggerContext, ["service"])
   }
 
-  private normalizeContext(context: Partial<Logger> | string) {
+  private normalizeContext(
+    context: Partial<Logger> | string,
+    loggerContext: Partial<Logger>
+  ): Partial<Logger> {
     if (typeof context === "string") {
       context = { operation: context }
     }
 
-    Object.assign(loggerContext, {
+    return {
       ...loggerContext,
       ...context
-    })
+    }
   }
 }
