@@ -6,6 +6,11 @@ import { ProductControllerModule } from "./controllers/product/product.module"
 import { UserControllerModule } from "./controllers/user/user.module"
 
 @Module({
-  imports: [AuthControllerModule, CompanyControllerModule, ProductControllerModule, UserControllerModule]
+  imports: [
+    AuthControllerModule,
+    CompanyControllerModule,
+    ProductControllerModule,
+    UserControllerModule
+  ]
 })
 export class ControllersRootModule {}

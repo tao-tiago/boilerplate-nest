@@ -284,7 +284,9 @@ describe("DeleteCompanyService", () => {
       const cascadeError = new Error("Cannot delete company with existing products")
       companyRepository.delete.mockRejectedValue(cascadeError)
 
-      await expect(service.execute(queryId)).rejects.toThrow("Cannot delete company with existing products")
+      await expect(service.execute(queryId)).rejects.toThrow(
+        "Cannot delete company with existing products"
+      )
 
       expect(companyRepository.findById).toHaveBeenCalledTimes(1)
       expect(companyRepository.delete).toHaveBeenCalledTimes(1)

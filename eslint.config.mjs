@@ -35,7 +35,7 @@ const lintConfig = [
       "simple-import-sort": simpleImportSort
     },
     rules: {
-      "prettier/prettier": "error",
+      "prettier/prettier": ["error", { printWidth: 100 }],
       "simple-import-sort/exports": "error",
       "simple-import-sort/imports": [
         "error",

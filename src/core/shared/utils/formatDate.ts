@@ -3,7 +3,10 @@ type formatDateProps = {
   format?: string
 }
 
-export const formatDate = ({ date = new Date(), format = "YYYY-MM-DD HH:mm:ss" }: formatDateProps) => {
+export const formatDate = ({
+  date = new Date(),
+  format = "YYYY-MM-DD HH:mm:ss"
+}: formatDateProps) => {
   const hours24 = date.getHours()
   const hours12 = hours24 % 12 === 0 ? 12 : hours24 % 12
 

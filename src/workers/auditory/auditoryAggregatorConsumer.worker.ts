@@ -26,7 +26,10 @@ export class AuditoryAggregatorConsumer extends BaseStreamConsumer {
       const completedServices = await this.streamProducer.getProcess(data.correlationId)
       const aggregatorDone = completedServices.includes("aggregator")
 
-      if (this.REQUIRED.every((service) => completedServices.includes(service)) && !aggregatorDone) {
+      if (
+        this.REQUIRED.every((service) => completedServices.includes(service)) &&
+        !aggregatorDone
+      ) {
         await this.callExternalService()
 
         await this.streamProducer.addProcess(data.correlationId, "aggregator")
