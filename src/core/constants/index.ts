@@ -1,7 +1,9 @@
 import type { StringValue } from "ms"
 
 // App environment
+export const PORT = process.env.PORT ?? 3333
 export const IS_DEVELOPMENT = (process.env.NODE_ENV ?? "development") === "development"
+export const GLOBAL_PREFIX = "api/v1"
 
 // JWT configuration
 export const JWT_SECRET = process.env.JWT_SECRET ?? "default"

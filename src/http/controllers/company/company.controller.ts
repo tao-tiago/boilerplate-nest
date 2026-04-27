@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common"
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger"
 import { ClsService } from "nestjs-cls"
 
 // import { Role } from "@/core/infra/auth/contracts/roles.enum"
@@ -15,7 +16,9 @@ import { ShowCompanyService } from "@/services/company/showCompany/showCompany.s
 import { UpdateCompanyDTO } from "@/services/company/updateCompany/updateCompany.dto"
 import { UpdateCompanyService } from "@/services/company/updateCompany/updateCompany.service"
 
-@Controller("api/v1/companies")
+@ApiBearerAuth()
+@ApiTags("Company")
+@Controller("companies")
 export class CompanyController {
   constructor(
     private readonly cls: ClsService,
@@ -44,6 +47,12 @@ export class CompanyController {
     }
   }
 
+  @ApiParam({
+    name: "id",
+    description: "ID of the company",
+    type: "String",
+    required: true
+  })
   @Get(":id")
   async showCompany(@Param() param: QueryId) {
     const correlationId = this.cls.get("correlationId")

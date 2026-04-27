@@ -11,7 +11,7 @@ import { ShowProductService } from "@/services/product/showProduct/showProduct.s
 import { UpdateProductDTO } from "@/services/product/updateProduct/updateProduct.dto"
 import { UpdateProductService } from "@/services/product/updateProduct/updateProduct.service"
 
-@Controller("api/v1/companies")
+@Controller("companies")
 export class ProductController {
   constructor(
     private listProductService: ListProductService,

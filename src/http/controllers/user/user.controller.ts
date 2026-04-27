@@ -7,7 +7,7 @@ import { CreateUserService } from "@/services/user/createUser/createUser.service
 import { ListUserDTO, ListUserFilter } from "@/services/user/listUser/listUser.dto"
 import { ListUserService } from "@/services/user/listUser/listUser.service"
 
-@Controller("api/v1/users")
+@Controller("users")
 export class UserController {
   private readonly logger = new Logger(UserController.name)
 
