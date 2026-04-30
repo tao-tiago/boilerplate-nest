@@ -1,7 +1,7 @@
 import { Injectable, LoggerService as NestLoggerService } from "@nestjs/common"
 import * as winston from "winston"
 
-import { Logger, loggerContext } from "./logger"
+import { ILogger, loggerContext } from "./logger"
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
@@ -26,7 +26,7 @@ export class LoggerService implements NestLoggerService {
     })
   }
 
-  log(message: string, context: Partial<Logger> | string = {}) {
+  log(message: string, context: Partial<ILogger> | string = {}) {
     const normalizedContext = this.normalizeContext(context, loggerContext)
 
     Object.assign(loggerContext, normalizedContext)
@@ -34,7 +34,7 @@ export class LoggerService implements NestLoggerService {
     this.winstonLogger.info(message, normalizedContext)
   }
 
-  error(message: string, context: Partial<Logger> | string = {}) {
+  error(message: string, context: Partial<ILogger> | string = {}) {
     const normalizedContext = this.normalizeContext(context, loggerContext)
 
     Object.assign(loggerContext, normalizedContext)
@@ -42,7 +42,7 @@ export class LoggerService implements NestLoggerService {
     this.winstonLogger.error(message, normalizedContext)
   }
 
-  warn(message: string, context: Partial<Logger> | string = {}) {
+  warn(message: string, context: Partial<ILogger> | string = {}) {
     const normalizedContext = this.normalizeContext(context, loggerContext)
 
     Object.assign(loggerContext, normalizedContext)
@@ -51,9 +51,9 @@ export class LoggerService implements NestLoggerService {
   }
 
   private normalizeContext(
-    context: Partial<Logger> | string,
-    loggerContext: Partial<Logger>
-  ): Partial<Logger> {
+    context: Partial<ILogger> | string,
+    loggerContext: Partial<ILogger>
+  ): Partial<ILogger> {
     if (typeof context === "string") {
       context = { operation: context }
     }

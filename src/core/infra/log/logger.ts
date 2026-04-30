@@ -1,4 +1,4 @@
-export type Logger = {
+export type ILogger = {
   correlationId: string
   service: string
   payload: unknown
@@ -10,6 +10,6 @@ export type Logger = {
   timestamp: string
 }
 
-export const loggerContext: Partial<Logger> = {
+export const loggerContext: Partial<ILogger> = {
   service: "service-api"
 }

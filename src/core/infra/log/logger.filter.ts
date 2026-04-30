@@ -8,7 +8,7 @@ import {
 } from "@nestjs/common"
 import { Request, Response } from "express"
 
-import { Logger, loggerContext } from "./logger"
+import { ILogger, loggerContext } from "./logger"
 import { LoggerService } from "./logger.service"
 
 @Injectable()
@@ -29,7 +29,7 @@ export class LoggerFilter implements ExceptionFilter {
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       method,
       path
-    } as Logger
+    } as ILogger
 
     let messageHumanReadable = ["An unknown error occurred. Please, try again later."]
     let messageInternalError = "Internal Server Error"
