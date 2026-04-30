@@ -1,8 +1,6 @@
 import { Injectable, LoggerService as NestLoggerService } from "@nestjs/common"
 import * as winston from "winston"
 
-import { clearObject } from "@/core/shared/utils/clearObject"
-
 import { Logger, loggerContext } from "./logger"
 
 @Injectable()
@@ -34,8 +32,6 @@ export class LoggerService implements NestLoggerService {
     Object.assign(loggerContext, normalizedContext)
 
     this.winstonLogger.info(message, normalizedContext)
-
-    clearObject(loggerContext, ["service"])
   }
 
   error(message: string, context: Partial<Logger> | string = {}) {
@@ -44,8 +40,6 @@ export class LoggerService implements NestLoggerService {
     Object.assign(loggerContext, normalizedContext)
 
     this.winstonLogger.error(message, normalizedContext)
-
-    clearObject(loggerContext, ["service"])
   }
 
   warn(message: string, context: Partial<Logger> | string = {}) {
@@ -54,8 +48,6 @@ export class LoggerService implements NestLoggerService {
     Object.assign(loggerContext, normalizedContext)
 
     this.winstonLogger.warn(message, normalizedContext)
-
-    clearObject(loggerContext, ["service"])
   }
 
   private normalizeContext(

@@ -1,8 +1,9 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common"
 import { ClsService } from "nestjs-cls"
-import { randomUUID } from "node:crypto"
 import { Observable } from "rxjs"
 import { tap } from "rxjs/operators"
+
+import { CustomRequest } from "@/core/shared/helpers/utility-types"
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
@@ -10,14 +11,9 @@ export class LoggerInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp()
-    const request = http.getRequest()
-    const response = http.getResponse()
+    const request = http.getRequest() as CustomRequest
 
-    const correlationId = request.headers["x-correlation-id"] ?? randomUUID()
-
-    this.cls.set("correlationId", correlationId)
-
-    response.setHeader("x-correlation-id", correlationId)
+    this.cls.set("correlationId", request.correlationId)
 
     return next.handle().pipe(tap(() => {}))
   }
