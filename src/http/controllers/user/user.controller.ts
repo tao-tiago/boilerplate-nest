@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Logger, Post, Query } from "@nestjs/common"
+import { Body, Controller, Get, Post, Query } from "@nestjs/common"
 
 import { Public } from "@/core/infra/auth/decorators/public.decorator"
+import { LoggerService } from "@/core/infra/log/logger.service"
 import { filters } from "@/core/shared/utils/filters"
 import { CreateUserDTO } from "@/services/user/createUser/createUser.dto"
 import { CreateUserService } from "@/services/user/createUser/createUser.service"
@@ -9,11 +10,10 @@ import { ListUserService } from "@/services/user/listUser/listUser.service"
 
 @Controller("users")
 export class UserController {
-  private readonly logger = new Logger(UserController.name)
-
   constructor(
-    private listUserService: ListUserService,
-    private createUserService: CreateUserService
+    private readonly listUserService: ListUserService,
+    private readonly createUserService: CreateUserService,
+    private readonly logger: LoggerService
   ) {}
 
   @Get()

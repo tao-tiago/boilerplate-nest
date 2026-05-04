@@ -1,6 +1,7 @@
-import { Injectable, Logger } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import { Prisma } from "@prisma/client"
 
+import { LoggerService } from "@/core/infra/log/logger.service"
 import { QueryOptionsResponse } from "@/core/shared/helpers/query-options.dto"
 import { UserRepository } from "@/repositories/user/user.repository"
 
@@ -8,9 +9,10 @@ import { ListUserFilter } from "./listUser.dto"
 
 @Injectable()
 export class ListUserService {
-  private readonly logger = new Logger(ListUserService.name)
-
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly logger: LoggerService
+  ) {}
   async execute(payload: QueryOptionsResponse<ListUserFilter>) {
     this.logger.log("List Users in Service", { operation: "ListUserService.execute" })
 

@@ -1,18 +1,18 @@
-import { Injectable, Logger } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import { Prisma, User } from "@prisma/client"
 
 import { CacheService } from "@/core/infra/cache/cache.service"
 import { DbService } from "@/core/infra/db/db.service"
+import { LoggerService } from "@/core/infra/log/logger.service"
 
 import { IUser } from "./user.types"
 
 @Injectable()
 export class UserRepository implements IUser {
-  private readonly logger = new Logger(UserRepository.name)
-
   constructor(
     private db: DbService,
-    private cache: CacheService
+    private cache: CacheService,
+    private readonly logger: LoggerService
   ) {}
 
   async list(data: Prisma.UserFindManyArgs) {

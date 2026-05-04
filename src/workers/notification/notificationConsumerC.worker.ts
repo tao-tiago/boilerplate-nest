@@ -1,6 +1,7 @@
-import { Injectable, Logger } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import Redis from "ioredis"
 
+import { LoggerService } from "@/core/infra/log/logger.service"
 import { BaseStreamConsumer } from "@/core/infra/stream/stream.consumer"
 import { IQueue, IQueuePayload } from "@/core/infra/stream/stream.types"
 
@@ -10,9 +11,10 @@ export class NotificationConsumerC extends BaseStreamConsumer {
   protected GROUP = "notification-group"
   protected CONSUMER = "consumer"
 
-  private readonly logger = new Logger(NotificationConsumerC.name)
-
-  constructor(public readonly stream: Redis) {
+  constructor(
+    public readonly stream: Redis,
+    private readonly logger: LoggerService
+  ) {
     super(stream)
   }
 
