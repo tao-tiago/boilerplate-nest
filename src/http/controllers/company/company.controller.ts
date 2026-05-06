@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common"
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger"
-import { ClsService } from "nestjs-cls"
 
 // import { Role } from "@/core/infra/auth/contracts/roles.enum"
 // import { AllowRoles } from "@/core/infra/auth/decorators/roles.decorator"
@@ -21,13 +20,12 @@ import { UpdateCompanyService } from "@/services/company/updateCompany/updateCom
 @Controller("companies")
 export class CompanyController {
   constructor(
-    private readonly cls: ClsService,
-    private readonly logger: LoggerService,
     private readonly listCompanyService: ListCompanyService,
     private readonly createCompanyService: CreateCompanyService,
     private readonly showCompanyService: ShowCompanyService,
     private readonly updateCompanyService: UpdateCompanyService,
-    private readonly deleteCompanyService: DeleteCompanyService
+    private readonly deleteCompanyService: DeleteCompanyService,
+    private readonly logger: LoggerService
   ) {}
 
   // @AllowRoles(Role.Admin)
@@ -55,12 +53,8 @@ export class CompanyController {
   })
   @Get(":id")
   async showCompany(@Param() param: QueryId) {
-    const correlationId = this.cls.get("correlationId")
-
-    this.logger.warn("Take a Company in Controller", {
-      correlationId,
-      operation: "CompanyController.showCompany",
-      method: "GET",
+    this.logger.log(CompanyController.name, {
+      operation: "showCompany",
       payload: param
     })
 

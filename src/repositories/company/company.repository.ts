@@ -3,14 +3,16 @@ import { Company, Prisma } from "@prisma/client"
 
 import { CacheService } from "@/core/infra/cache/cache.service"
 import { DbService } from "@/core/infra/db/db.service"
+import { LoggerService } from "@/core/infra/log/logger.service"
 
 import { ICompany } from "./company.types"
 
 @Injectable()
 export class CompanyRepository implements ICompany {
   constructor(
-    private db: DbService,
-    private cache: CacheService
+    private readonly db: DbService,
+    private readonly cache: CacheService,
+    private readonly logger: LoggerService
   ) {}
 
   async list(data: Prisma.CompanyFindManyArgs) {
@@ -51,6 +53,11 @@ export class CompanyRepository implements ICompany {
   }
 
   async findById(id: string, include: Prisma.CompanyInclude = {}) {
+    this.logger.log(CompanyRepository.name, {
+      operation: "findById",
+      payload: { id, include }
+    })
+
     const isSimpleEntity = Object.entries(include).length === 0
 
     if (isSimpleEntity) {

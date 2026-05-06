@@ -1,15 +1,18 @@
-export type ILogger = {
-  correlationId: string
-  service: string
-  payload: unknown
-  operation: string
-  status: number
-  method: string
-  path: string
-  stack: unknown
-  timestamp: string
-}
+import { Injectable } from "@nestjs/common"
+import { ClsService } from "nestjs-cls"
 
-export const loggerContext: Partial<ILogger> = {
-  service: "service-api"
+import { ILogger, ILoggerRequired } from "./logger.type"
+
+@Injectable()
+export class LoggerContext {
+  constructor(private readonly cls: ClsService) {}
+
+  set(context: ILoggerRequired & Partial<ILogger>) {
+    const internalContext = this.cls.get("loggerContext") ?? {}
+    this.cls.set("loggerContext", { ...internalContext, ...context })
+  }
+
+  get(): ILoggerRequired & Partial<ILogger> {
+    return this.cls.get("loggerContext") ?? {}
+  }
 }

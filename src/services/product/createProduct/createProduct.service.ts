@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
 
+import { LoggerContext } from "@/core/infra/log/logger"
 import { StreamProducer } from "@/core/infra/stream/stream.producer"
 import { QueryCompanyId } from "@/core/shared/helpers/query-options.dto"
 import { CompanyRepository } from "@/repositories/company/company.repository"
@@ -12,10 +13,12 @@ export class CreateProductService {
   constructor(
     private readonly companyRepository: CompanyRepository,
     private readonly productRepository: ProductRepository,
-    private readonly streamProducer: StreamProducer
+    private readonly streamProducer: StreamProducer,
+    private readonly loggerContext: LoggerContext
   ) {}
 
   async execute({ name, companyId }: CreateProductDTO & QueryCompanyId) {
+    const { correlationId } = this.loggerContext.get()
     const company = await this.companyRepository.findById(companyId)
 
     if (!company) {
@@ -31,7 +34,7 @@ export class CreateProductService {
       queue: "NOTIFICATION_A",
       payload: {
         type: "product.created",
-        correlationId: product.id,
+        correlationId,
         productId: product.id,
         productName: product.name
       }

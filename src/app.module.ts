@@ -5,12 +5,11 @@ import { ClsModule } from "nestjs-cls"
 import { AuthModule } from "./core/infra/auth/auth.module"
 import { JwtAuthGuard } from "./core/infra/auth/guards/jwt-auth.guard"
 import { RolesGuard } from "./core/infra/auth/guards/roles.guard"
-import { LoggerInterceptor } from "./core/infra/interceptors/loggerInterceptor.interceptor"
+import { LoggerInterceptor } from "./core/infra/interceptors/logger.interceptor"
 import { LoggerFilter } from "./core/infra/log/logger.filter"
 import { LoggerModule } from "./core/infra/log/logger.module"
 import { ControllersRootModule } from "./http/controllersRoot.module"
 import { CorrelationIdMiddleware } from "./http/middlewares/correlationId.middleware"
-import { RequestLoggerMiddleware } from "./http/middlewares/requestLogger.middleware"
 import { WorkersRootModule } from "./workers/workersRoot.module"
 
 @Module({
@@ -36,6 +35,5 @@ import { WorkersRootModule } from "./workers/workersRoot.module"
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(CorrelationIdMiddleware).forRoutes("*path")
-    consumer.apply(RequestLoggerMiddleware).forRoutes("*path")
   }
 }

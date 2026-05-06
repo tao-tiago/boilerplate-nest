@@ -6,10 +6,10 @@ import {
   HttpStatus,
   Injectable
 } from "@nestjs/common"
-import { Request, Response } from "express"
+import { Response } from "express"
 
-import { ILogger, loggerContext } from "./logger"
 import { LoggerService } from "./logger.service"
+import { ILogger } from "./logger.type"
 
 @Injectable()
 @Catch()
@@ -18,24 +18,17 @@ export class LoggerFilter implements ExceptionFilter {
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
-    const request = ctx.getRequest<Request>()
     const response = ctx.getResponse<Response>()
 
-    const { method, params, path: uri } = request
-    const path = `${uri}${params.path ? (Array.isArray(params.path) ? params.path.join("/") : `${params.path}`) : ""}`
-
-    const loggerParser = {
-      ...loggerContext,
-      status: HttpStatus.INTERNAL_SERVER_ERROR,
-      method,
-      path
+    const internalLogger = {
+      status: HttpStatus.INTERNAL_SERVER_ERROR
     } as ILogger
 
     let messageHumanReadable = ["An unknown error occurred. Please, try again later."]
     let messageInternalError = "Internal Server Error"
 
     if (exception instanceof HttpException) {
-      loggerParser.status = exception.getStatus()
+      internalLogger.status = exception.getStatus()
 
       const httpResponse = exception.getResponse()
 
@@ -51,14 +44,14 @@ export class LoggerFilter implements ExceptionFilter {
 
     if (exception instanceof Error) {
       messageInternalError = exception.message
-      loggerParser.stack = exception.stack
+      internalLogger.stack = exception.stack
     }
 
-    if (loggerParser.status >= 500 && loggerParser.status <= 599) {
-      this.logger.error(messageInternalError, loggerParser)
+    if (internalLogger.status >= 500 && internalLogger.status <= 599) {
+      this.logger.error(messageInternalError, internalLogger)
     }
 
-    response.status(loggerParser.status).json({
+    response.status(internalLogger.status).json({
       message: messageHumanReadable
     })
   }

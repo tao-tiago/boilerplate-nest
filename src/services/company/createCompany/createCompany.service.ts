@@ -9,6 +9,12 @@ export class CreateCompanyService {
   constructor(private companyRepository: CompanyRepository) {}
 
   async execute(payload: CreateCompanyDTO) {
-    await this.companyRepository.create(payload)
+    const { corporateName, typeCompany, userId } = payload
+
+    await this.companyRepository.create({
+      corporateName,
+      typeCompany,
+      users: { connect: { id: userId } }
+    })
   }
 }

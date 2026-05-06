@@ -1,13 +1,14 @@
 import { Injectable, LoggerService as NestLoggerService } from "@nestjs/common"
 import * as winston from "winston"
 
-import { ILogger, loggerContext } from "./logger"
+import { LoggerContext } from "./logger"
+import { ILogger } from "./logger.type"
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
   private winstonLogger: winston.Logger
 
-  constructor() {
+  constructor(private readonly loggerContext: LoggerContext) {
     this.winstonLogger = winston.addColors({
       info: "green",
       warn: "yellow",
@@ -27,39 +28,33 @@ export class LoggerService implements NestLoggerService {
   }
 
   log(message: string, context: Partial<ILogger> | string = {}) {
-    const normalizedContext = this.normalizeContext(context, loggerContext)
-
-    Object.assign(loggerContext, normalizedContext)
+    const normalizedContext = this.normalizeContext(context, this.loggerContext.get())
 
     this.winstonLogger.info(message, normalizedContext)
   }
 
   error(message: string, context: Partial<ILogger> | string = {}) {
-    const normalizedContext = this.normalizeContext(context, loggerContext)
-
-    Object.assign(loggerContext, normalizedContext)
+    const normalizedContext = this.normalizeContext(context, this.loggerContext.get())
 
     this.winstonLogger.error(message, normalizedContext)
   }
 
   warn(message: string, context: Partial<ILogger> | string = {}) {
-    const normalizedContext = this.normalizeContext(context, loggerContext)
-
-    Object.assign(loggerContext, normalizedContext)
+    const normalizedContext = this.normalizeContext(context, this.loggerContext.get())
 
     this.winstonLogger.warn(message, normalizedContext)
   }
 
   private normalizeContext(
     context: Partial<ILogger> | string,
-    loggerContext: Partial<ILogger>
+    internalContext: Partial<ILogger>
   ): Partial<ILogger> {
     if (typeof context === "string") {
       context = { operation: context }
     }
 
     return {
-      ...loggerContext,
+      ...internalContext,
       ...context
     }
   }

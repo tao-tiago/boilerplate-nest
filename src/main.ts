@@ -15,7 +15,7 @@ async function bootstrap() {
   app.setGlobalPrefix(GLOBAL_PREFIX)
   app.enableCors()
   app.use(helmet())
-  app.useLogger(new LoggerService())
+  app.useLogger(app.get(LoggerService))
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
