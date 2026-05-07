@@ -2,7 +2,7 @@ import { Injectable, LoggerService as NestLoggerService } from "@nestjs/common"
 import * as winston from "winston"
 
 import { LoggerContext } from "./logger"
-import { ILogger } from "./logger.type"
+import { ILoggerNormalize } from "./logger.type"
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
@@ -27,28 +27,28 @@ export class LoggerService implements NestLoggerService {
     })
   }
 
-  log(message: string, context: Partial<ILogger> | string = {}) {
+  log(message: string, context: ILoggerNormalize | string) {
     const normalizedContext = this.normalizeContext(context, this.loggerContext.get())
 
     this.winstonLogger.info(message, normalizedContext)
   }
 
-  error(message: string, context: Partial<ILogger> | string = {}) {
+  error(message: string, context: ILoggerNormalize | string) {
     const normalizedContext = this.normalizeContext(context, this.loggerContext.get())
 
     this.winstonLogger.error(message, normalizedContext)
   }
 
-  warn(message: string, context: Partial<ILogger> | string = {}) {
+  warn(message: string, context: ILoggerNormalize | string) {
     const normalizedContext = this.normalizeContext(context, this.loggerContext.get())
 
     this.winstonLogger.warn(message, normalizedContext)
   }
 
   private normalizeContext(
-    context: Partial<ILogger> | string,
-    internalContext: Partial<ILogger>
-  ): Partial<ILogger> {
+    context: ILoggerNormalize | string,
+    internalContext: ILoggerNormalize
+  ): ILoggerNormalize {
     if (typeof context === "string") {
       context = { operation: context }
     }

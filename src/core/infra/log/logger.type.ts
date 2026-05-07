@@ -12,3 +12,5 @@ export type ILogger = {
   stack: unknown
   timestamp: string
 }
+
+export type ILoggerNormalize = Partial<ILoggerRequired & ILogger>

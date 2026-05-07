@@ -13,6 +13,6 @@ export class LoggerContext {
   }
 
   get(): ILoggerRequired & Partial<ILogger> {
-    return this.cls.get("loggerContext") ?? {}
+    return this.cls.get("loggerContext")
   }
 }
