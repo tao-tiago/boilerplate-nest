@@ -1,6 +1,6 @@
 import { Global, Module } from "@nestjs/common"
 
-import { LoggerContext } from "./logger"
+import { LoggerContext } from "./logger.context"
 import { LoggerService } from "./logger.service"
 
 @Global()

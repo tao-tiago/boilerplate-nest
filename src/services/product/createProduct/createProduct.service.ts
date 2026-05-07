@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
 
-import { LoggerContext } from "@/core/infra/log/logger"
+import { LoggerContext } from "@/core/infra/log/logger.context"
 import { StreamProducer } from "@/core/infra/stream/stream.producer"
 import { QueryCompanyId } from "@/core/shared/helpers/query-options.dto"
 import { CompanyRepository } from "@/repositories/company/company.repository"

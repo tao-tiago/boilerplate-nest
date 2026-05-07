@@ -3,7 +3,7 @@ import { Observable } from "rxjs"
 
 import { CustomRequest } from "@/core/shared/helpers/utility-types"
 
-import { LoggerContext } from "../log/logger"
+import { LoggerContext } from "../log/logger.context"
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {

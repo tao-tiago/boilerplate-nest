@@ -1,7 +1,7 @@
 import { Injectable, LoggerService as NestLoggerService } from "@nestjs/common"
 import * as winston from "winston"
 
-import { LoggerContext } from "./logger"
+import { LoggerContext } from "./logger.context"
 import { ILoggerNormalize } from "./logger.type"
 
 @Injectable()
