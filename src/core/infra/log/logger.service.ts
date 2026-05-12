@@ -9,19 +9,12 @@ export class LoggerService implements NestLoggerService {
   private winstonLogger: winston.Logger
 
   constructor(private readonly loggerContext: LoggerContext) {
-    this.winstonLogger = winston.addColors({
-      info: "green",
-      warn: "yellow",
-      error: "red"
-    })
-
     this.winstonLogger = winston.createLogger({
       level: "info",
       format: winston.format.combine(
         winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         winston.format.errors({ stack: true }),
-        winston.format.json(),
-        winston.format.colorize({ all: true })
+        winston.format.json()
       ),
       transports: [new winston.transports.Console()]
     })
